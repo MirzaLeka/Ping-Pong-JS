@@ -8,8 +8,6 @@ var ballSpeedX = -20;
 var ballY = canvas.height/2;
 var ballSpeedY = -20;
 
-var framesPerSecond = 60;
-
 var audio = new Audio('../Resources/audio/bouncingBall.mp3');
 
 var leftPaddle = 250;
@@ -61,7 +59,6 @@ function motion() {
 
 if (ballX > canvas.width) {
 // ballSpeedX = -ballSpeedX;
-//audio.play();
 ballReset();
 
 /* Player Scores */
@@ -81,7 +78,15 @@ scorePC++;
 
 if (ballX < 50 && ballX > 35 && (ballY > leftPaddle && ballY < (leftPaddle + PADDLE_HEIGHT))) {  // ballX < 50 && > 35; ballY > 250 && < 350; 
 ballSpeedX = - ballSpeedX;
-//audio.play();
+audio.play();
+
+}
+
+/* Right Paddle Collission */
+
+if ((ballX > 750 && ballX < 775) && (ballY > rightPaddle && ballY < (rightPaddle + PADDLE_HEIGHT))) {  // ballX < 50 && > 35; ballY > 250 && < 350; 
+ballSpeedX = - ballSpeedX;
+audio.play();
 
 }
 
@@ -92,14 +97,15 @@ ballY = ballY + ballSpeedY;
 
 if (ballY > canvas.height) {
 ballSpeedY = -ballSpeedY;
-//audio.play();
+audio.play();
 }
 
 if (ballY < 0) {
 ballSpeedY = -ballSpeedY;
-//audio.play();
+audio.play();
 }
 
+/* Mouse Detector */
 canvas.addEventListener('mousemove',
 		function(evt) {
 			var mousePos = calculateMousePos(evt);
@@ -110,7 +116,23 @@ canvas.addEventListener('mousemove',
 
 }
 
+
+function computerMovement() {
+
+var rightPaddleCenter = rightPaddle + PADDLE_HEIGHT/2;
+
+if (rightPaddleCenter < ballY) {
+rightPaddle += 10;
+}
+else {
+rightPaddle -= 10;
+}
+
+}
+
 function graphics() {
+
+    computerMovement();
 
 
 /* Background Canvas */    
