@@ -12,6 +12,20 @@ var framesPerSecond = 60;
 
 var audio = new Audio('../Resources/audio/bouncingBall.mp3');
 
+var leftPaddle = 250;
+const PADDLE_HEIGHT = 100;
+
+function calculateMousePos(evt) {
+	var rect = canvas.getBoundingClientRect();
+	var root = document.documentElement;
+	var mouseX = evt.clientX - rect.left - root.scrollLeft;
+	var mouseY = evt.clientY - rect.top - root.scrollTop;
+	return {
+		x:mouseX,
+		y:mouseY
+	};
+}
+
 window.onload = function() {
 
  canvasContext = canvas.getContext("2d"); 
@@ -19,6 +33,14 @@ window.onload = function() {
 
 setInterval(function(){ motion(); graphics();} , 50);
 
+
+}
+
+function ballReset() {
+
+ballSpeedX = -ballSpeedX;
+ballX = canvas.width/2;
+ballY = canvas.height/2;
 
 }
 
@@ -31,13 +53,23 @@ function motion() {
 if (ballX > canvas.width) {
 ballSpeedX = -ballSpeedX;
 audio.play();
+//ballReset();
 }
 
 
 if (ballX < 0) {
-ballSpeedX = -ballSpeedX;
-audio.play();
+ballReset();
 }
+
+
+/* Left Paddle Collission */
+
+if (ballX < 50 && ballX > 35 && (ballY > leftPaddle && ballY < (leftPaddle + PADDLE_HEIGHT))) {  // ballX < 50 && > 35; ballY > 250 && < 350; 
+ballSpeedX = - ballSpeedX;
+audio.play();
+
+}
+
 
 
 /* Motion Y Direction */
@@ -54,13 +86,18 @@ ballSpeedY = -ballSpeedY;
 audio.play();
 }
 
+canvas.addEventListener('mousemove',
+		function(evt) {
+			var mousePos = calculateMousePos(evt);
+			leftPaddle = mousePos.y - (PADDLE_HEIGHT/2);
+            
+		});
 
 
 }
 
 function graphics() {
 
- 
 
 /* Background Canvas */    
 canvasContext.fillStyle = "black";
@@ -71,15 +108,15 @@ var offsetTop = 0;
 
 for (var i = 0; i < 11; i++) {
 
-    createCanvas(392,offsetTop,8,40,'white');
+    createCanvas(394,offsetTop,6,40,'white');
     offsetTop+=80;
 }
 
 /* Left Paddle */
- createCanvas(20,250,15,100,'white');
+ createCanvas(20,leftPaddle,15,PADDLE_HEIGHT,'white');
 
 /* Right Paddle */
-createCanvas(765,250,15,100,'white');
+createCanvas(765,250,15,PADDLE_HEIGHT,'white');
 
 /* Ball */
 createBall(ballX, ballY, 10, 'red');
