@@ -14,6 +14,7 @@ background: url("https://images7.alphacoders.com/368/368873.jpg") no-repeat cent
 canvas{
     background: black;
  border: 5px solid #64DD17;
+ border-radius: 10px;
 
 }
 

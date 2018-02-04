@@ -1,8 +1,8 @@
 
 var canvas;
 var canvasContext;
-var ballX = 50;
-var ballY = 50;
+var ballX = 400;
+var ballY = 300;
 var ballSpeedX = 10;
 var ballSpeedY = 4;
 
@@ -14,7 +14,13 @@ var showGameOverScreen = false;
 
 var bouncingAudio = new Audio('../Resources/audio/bouncingBall.mp3');
 
-var gameOverAudio = new Audio('../Resources/audio/gameOverAudio.mp3');
+var gameOverPlayer = new Audio('../Resources/audio/gameOverPlayer.mp3');
+
+var gameOverComputer = new Audio('../Resources/audio/gameOverComputer.mp3');
+
+var pointPlayer = new Audio('../Resources/audio/pointPlayer.mp3');
+
+var pointComputer = new Audio('../Resources/audio/pointComputer.mp3');
 
 var leftPaddle = 250;
 var rightPaddle = 250;
@@ -64,7 +70,14 @@ function ballReset() {
 		rightPaddleScore >= WINNING_SCORE) {
 
 		showGameOverScreen = true;
-		gameOverAudio.play();
+		
+		if (leftPaddleScore >= WINNING_SCORE) {
+			gameOverPlayer.play();
+		}
+		else if (rightPaddleScore >= WINNING_SCORE) {
+			gameOverComputer.play();
+		}
+		
 
 	}
 
@@ -75,7 +88,7 @@ function ballReset() {
 
 function computerMovement() {
 	var paddle2YCenter = rightPaddle + (PADDLE_HEIGHT/2);
-	if(paddle2YCenter < ballY - 50) {
+	if(paddle2YCenter < ballY - 45) {
 		rightPaddle = rightPaddle + 10;
 	} else if(paddle2YCenter > ballY + 45) {
 		rightPaddle = rightPaddle - 10;
@@ -103,6 +116,13 @@ function motion() {
 			bouncingAudio.play();
 		} else {
 			rightPaddleScore++;
+
+			if (rightPaddleScore == WINNING_SCORE) {
+			}
+			else {
+              pointComputer.play();
+			}
+
 			ballReset();
 	
 	if (rightPaddleScore == leftPaddleScore + 1) {
@@ -122,6 +142,12 @@ function motion() {
 				bouncingAudio.play();
 		} else {
 			leftPaddleScore++;
+
+			if (leftPaddleScore == WINNING_SCORE) {
+			}
+			else {
+              pointPlayer.play();
+			}
 			ballReset();	
 
 	 if (leftPaddleScore == rightPaddleScore + 1) {
@@ -218,7 +244,7 @@ canvasContext.fillText(paddle, positionX, positionY);
 function whoScored(playerScored, color) {
     var x = document.getElementById("snackbar");
 
-if (rightPaddleScore == 10 || leftPaddleScore == 10) {
+if (rightPaddleScore == WINNING_SCORE || leftPaddleScore == WINNING_SCORE) {
 	x.className = "hide";
 }
 else {
