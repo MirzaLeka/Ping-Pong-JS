@@ -8,7 +8,7 @@ var ballSpeedY = 4;
 
 var leftPaddleScore = 0;
 var rightPaddleScore = 0;
-const WINNING_SCORE = 11;
+const WINNING_SCORE = 10;
 
 var showGameOverScreen = false;
 
