@@ -76,9 +76,9 @@ scorePC++;
 
 /* Left Paddle Collission */
 
-if (ballX < 50 && ballX > 35 && (ballY > leftPaddle && ballY < (leftPaddle + PADDLE_HEIGHT))) {  // ballX < 50 && > 35; ballY > 250 && < 350; 
+if (ballX == 35 && ballX >= 20 && (ballY > leftPaddle && ballY < (leftPaddle + PADDLE_HEIGHT))) {  // ballX < 50 && > 35; ballY > 250 && < 350; 
 ballSpeedX = - ballSpeedX;
-audio.play();
+//audio.play();
 
 }
 
@@ -86,7 +86,7 @@ audio.play();
 
 if ((ballX > 750 && ballX < 775) && (ballY > rightPaddle && ballY < (rightPaddle + PADDLE_HEIGHT))) {  // ballX < 50 && > 35; ballY > 250 && < 350; 
 ballSpeedX = - ballSpeedX;
-audio.play();
+//audio.play();
 
 }
 
@@ -97,12 +97,12 @@ ballY = ballY + ballSpeedY;
 
 if (ballY > canvas.height) {
 ballSpeedY = -ballSpeedY;
-audio.play();
+//audio.play();
 }
 
 if (ballY < 0) {
 ballSpeedY = -ballSpeedY;
-audio.play();
+//audio.play();
 }
 
 /* Mouse Detector */
@@ -155,8 +155,8 @@ for (var i = 0; i < 11; i++) {
 createCanvas(765,rightPaddle,PADDLE_THICKNESS,PADDLE_HEIGHT,'white');
 
 /* Scores */
-scores(scorePC, canvas.width/2-PADDLE_HEIGHT, canvas.height/2-canvas.height/4);
-scores(scorePlayer, canvas.width/2+PADDLE_HEIGHT, canvas.height/2-canvas.height/4);
+scores(scorePlayer, canvas.width/2-PADDLE_HEIGHT, canvas.height/2-canvas.height/4);
+scores(scorePC, canvas.width/2+PADDLE_HEIGHT, canvas.height/2-canvas.height/4);
 
 
 /* Ball */
@@ -179,6 +179,7 @@ canvasContext.fill();
 }
 
 function scores(team, positionX, positionY) {
+canvasContext.font="30px Arial";
 canvasContext.fillText(team, positionX, positionY);
 
 }
