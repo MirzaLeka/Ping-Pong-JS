@@ -10,6 +10,8 @@ var leftPaddleScore = 0;
 var rightPaddleScore = 0;
 const WINNING_SCORE = 10;
 
+var showStartScreen = true;
+
 var showGameOverScreen = false;
 
 var bouncingAudio = new Audio('../Resources/audio/bouncingBall.mp3');
@@ -28,6 +30,12 @@ const PADDLE_THICKNESS = 10;
 const PADDLE_HEIGHT = 100;
 
 function calculateMousePos(evt) {
+
+	/* If you're at startup screen you can't move the paddle */
+	if (showStartScreen) {
+		return;
+	}
+
 	var rect = canvas.getBoundingClientRect();
 	var root = document.documentElement;
 	var mouseX = evt.clientX - rect.left - root.scrollLeft;
@@ -39,10 +47,11 @@ function calculateMousePos(evt) {
 }
 
 function handleMouseClick(evt) {
-	if(showGameOverScreen) {
+	if(showGameOverScreen || showStartScreen) {
 		leftPaddleScore = 0;
 		rightPaddleScore = 0;
 		showGameOverScreen = false;
+		showStartScreen = false;
 	}
 }
 
@@ -97,7 +106,9 @@ function computerMovement() {
 }
 
 function motion() {
-	if(showGameOverScreen) {
+
+	/* If any of these is active there will be no ball or computer motion */
+	if (showStartScreen || showGameOverScreen) {
 		return;
 	}
 
@@ -189,8 +200,12 @@ function graphics() {
 	/* Background Canvas */   
 	createCanvas(0,0,canvas.width,canvas.height,'black');
 
-	if(showGameOverScreen) {
-		canvasContext.fillStyle = 'white';
+	/* If this is active then elements like net, paddles, ball and score will not be drawn on the screen */
+	if (showStartScreen) {
+		gameOverScreen("Click to Start", canvas.width/2-70, canvas.height/2,"#FFF","24px Arial");
+	}
+
+	else if(showGameOverScreen) {
 
 		if(leftPaddleScore >= WINNING_SCORE) {
 			gameOverScreen("Player Won", canvas.width/2-60, canvas.height/2,"#007BFF","24px Arial");
@@ -202,7 +217,9 @@ function graphics() {
 		return;
 	}
 
-	/* Net */
+	else {
+
+/* Net */
 	drawNet();
 
 	/* Left Paddle */
@@ -217,6 +234,9 @@ function graphics() {
     /* Scores */
 	scores(leftPaddleScore, canvas.width/2-100, 100, "#007BFF");
 	scores(rightPaddleScore, canvas.width/2+75, 100, "#D50000");
+
+	}
+
 }
 
 function createBall(centerX, centerY, radius, color) {
