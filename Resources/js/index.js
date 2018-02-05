@@ -103,11 +103,18 @@ function ballReset() {
 
 function computerMovement() {
 	var rightPaddleCenter = rightPaddle + (PADDLE_HEIGHT/2);
-	if(rightPaddleCenter < ballY - 30) {
+
+	if (ballX < canvas.width/2 - 50) {
+		/* If ball isn't in computer's half, computer should not move,
+		  except if ball is near the edge, so computer can see the ball coming  */
+	} else {
+		if(rightPaddleCenter < ballY - 30) {
 		rightPaddle += 8;
 	} else if(rightPaddleCenter > ballY + 30) {
 		rightPaddle -= 8;
+	  }
 	}
+
 }
 
 function motion() {
@@ -244,7 +251,7 @@ function graphics() {
 
     /* Scores */
 	scores(leftPaddleScore, canvas.width/2-100, 100, "#007BFF");
-	scores(rightPaddleScore, canvas.width/2+75, 100, "#D50000");
+	scores(rightPaddleScore, canvas.width/2+77, 100, "#D50000");
 
 	}
 
