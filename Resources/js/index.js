@@ -77,7 +77,7 @@ function ballReset() {
 		else if (rightPaddleScore >= WINNING_SCORE) {
 			gameOverComputer.play();
 		}
-		
+
 
 	}
 
@@ -86,12 +86,13 @@ function ballReset() {
 	ballY = canvas.height/2;
 }
 
+
 function computerMovement() {
-	var paddle2YCenter = rightPaddle + (PADDLE_HEIGHT/2);
-	if(paddle2YCenter < ballY - 45) {
-		rightPaddle = rightPaddle + 10;
-	} else if(paddle2YCenter > ballY + 45) {
-		rightPaddle = rightPaddle - 10;
+	var rightPaddleCenter = rightPaddle + (PADDLE_HEIGHT/2);
+	if(rightPaddleCenter < ballY - 40) {
+		rightPaddle += 8;
+	} else if(rightPaddleCenter > ballY + 40) {
+		rightPaddle -= 8;
 	}
 }
 
@@ -120,6 +121,7 @@ function motion() {
 			if (rightPaddleScore == WINNING_SCORE) {
 			}
 			else {
+			  pointComputer.volume = 0.3;	
               pointComputer.play();
 			}
 
@@ -146,7 +148,9 @@ function motion() {
 			if (leftPaddleScore == WINNING_SCORE) {
 			}
 			else {
+			  pointPlayer.volume = 0.6;
               pointPlayer.play();
+			  
 			}
 			ballReset();	
 
@@ -194,7 +198,7 @@ function graphics() {
 			gameOverScreen("Computer Won", canvas.width/2-70, canvas.height/2,"#D50000","24px Arial");
 		}
 
-		gameOverScreen("Click to Replay", 625, 575, "#FFF", "18px Arial");
+		gameOverScreen("Click to Restart", 625, 575, "#FFF", "18px Arial");
 		return;
 	}
 
@@ -212,7 +216,7 @@ function graphics() {
 
     /* Scores */
 	scores(leftPaddleScore, canvas.width/2-100, 100, "#007BFF");
-	scores(rightPaddleScore, canvas.width/2+80, 100, "#D50000");
+	scores(rightPaddleScore, canvas.width/2+75, 100, "#D50000");
 }
 
 function createBall(centerX, centerY, radius, color) {
