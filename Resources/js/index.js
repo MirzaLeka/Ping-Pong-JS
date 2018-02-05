@@ -34,7 +34,7 @@ const PADDLE_HEIGHT = 100;
 
 function calculateMousePos(evt) {
 
-	/* If you're at startup screen you can't move the paddle */
+	/* If you're at start screen you can't move the paddle */
 	if (showStartScreen) {
 		return;
 	}

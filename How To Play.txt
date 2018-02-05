@@ -1,0 +1,28 @@
+
+Instructions:
+/////////////
+
+1) Open Web-Info folder.
+
+2) Double click on file index (index.html). This will open your web browser and game will start.
+
+
+////////////
+Ping Pong JS
+////////////
+
+|Credits|
+Developed by: Mirza Leka
+https://github.com/MirzaLeka
+////////////////////////////
+
+|Development|
+Length: 4 days
+Resources: Google, Youtube, Stackoverflow
+Programming: HTML5, CSS3, JavaScript with ECMAScript 6
+//////////////////////////////////////////////////////
+
+Special thanks to Udemy,
+Course: Code Your First Game &
+Educator: Chris DeLeon
+//////////////////////////////
