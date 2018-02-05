@@ -24,6 +24,9 @@ var pointPlayer = new Audio('../Resources/audio/pointPlayer.mp3');
 
 var pointComputer = new Audio('../Resources/audio/pointComputer.mp3');
 
+    pointPlayer.volume = 0.5;	
+	pointComputer.volume = 0.3;	
+
 var leftPaddle = 250;
 var rightPaddle = 250;
 const PADDLE_THICKNESS = 10;
@@ -75,6 +78,7 @@ window.onload = function() {
 }
 
 function ballReset() {
+	
 	if(leftPaddleScore >= WINNING_SCORE ||
 		rightPaddleScore >= WINNING_SCORE) {
 
@@ -90,7 +94,8 @@ function ballReset() {
 
 	}
 
-	ballSpeedX = -ballSpeedX;
+    /* After reset ball spawn will be random */
+	ballSpeedX = -ballSpeedX * Math.ceil(Math.random());
 	ballX = canvas.width/2;
 	ballY = canvas.height/2;
 }
@@ -98,9 +103,9 @@ function ballReset() {
 
 function computerMovement() {
 	var rightPaddleCenter = rightPaddle + (PADDLE_HEIGHT/2);
-	if(rightPaddleCenter < ballY - 40) {
+	if(rightPaddleCenter < ballY - 30) {
 		rightPaddle += 8;
-	} else if(rightPaddleCenter > ballY + 40) {
+	} else if(rightPaddleCenter > ballY + 30) {
 		rightPaddle -= 8;
 	}
 }
@@ -116,6 +121,10 @@ function motion() {
 
 	ballX = ballX + ballSpeedX;
 	ballY = ballY + ballSpeedY;
+
+	/* X Direction */
+
+	/* If Computer Scores */
 	
 	if(ballX < 0) {
 		if(ballY > leftPaddle &&
@@ -132,7 +141,6 @@ function motion() {
 			if (rightPaddleScore == WINNING_SCORE) {
 			}
 			else {
-			  pointComputer.volume = 0.3;	
               pointComputer.play();
 			}
 
@@ -144,6 +152,9 @@ function motion() {
 
 		}
 	}
+
+    /* If Player Scores */
+
 	if(ballX > canvas.width) {
 		if(ballY > rightPaddle &&
 			ballY < rightPaddle+PADDLE_HEIGHT) {
@@ -159,7 +170,6 @@ function motion() {
 			if (leftPaddleScore == WINNING_SCORE) {
 			}
 			else {
-			  pointPlayer.volume = 0.6;
               pointPlayer.play();
 			  
 			}
@@ -172,6 +182,7 @@ function motion() {
 		}
 	}
 
+    /* Y Direction */
 		
 	if(ballY < 0) {
 		ballSpeedY = -ballSpeedY;
@@ -208,9 +219,9 @@ function graphics() {
 	else if(showGameOverScreen) {
 
 		if(leftPaddleScore >= WINNING_SCORE) {
-			gameOverScreen("Player Won", canvas.width/2-60, canvas.height/2,"#007BFF","24px Arial");
+			gameOverScreen("Player Won", canvas.width/2-70, canvas.height/2,"#007BFF","24px Arial");
 		} else if(rightPaddleScore >= WINNING_SCORE) {
-			gameOverScreen("Computer Won", canvas.width/2-70, canvas.height/2,"#D50000","24px Arial");
+			gameOverScreen("Computer Won", canvas.width/2-80, canvas.height/2,"#D50000","24px Arial");
 		}
 
 		gameOverScreen("Click to Restart", 625, 575, "#FFF", "18px Arial");

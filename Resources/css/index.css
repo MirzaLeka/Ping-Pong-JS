@@ -11,6 +11,15 @@ background: url("https://images7.alphacoders.com/368/368873.jpg") no-repeat cent
     -o-background-size: cover;
 }
 
+span{
+    color: #000;
+}
+
+a{
+    color: #310594;
+}
+
+
 canvas{
     background: black;
  border: 5px solid #64DD17;
