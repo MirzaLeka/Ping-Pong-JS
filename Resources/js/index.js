@@ -237,7 +237,7 @@ function graphics() {
 
 	else {
 
-/* Net */
+    /* Net */
 	drawNet();
 
 	/* Left Paddle */
