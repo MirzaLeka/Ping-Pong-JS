@@ -6,8 +6,8 @@ var ballY = 300;
 var ballSpeedX = 10;
 var ballSpeedY = 4;
 
-var leftPaddleScore = 0;
-var rightPaddleScore = 0;
+var playerScore = 0;
+var computerScore = 0;
 const WINNING_SCORE = 10;
 
 var showStartScreen = true;
@@ -51,8 +51,8 @@ function calculateMousePos(evt) {
 
 function handleMouseClick(evt) {
 	if(showGameOverScreen || showStartScreen) {
-		leftPaddleScore = 0;
-		rightPaddleScore = 0;
+		playerScore = 0;
+		computerScore = 0;
 		showGameOverScreen = false;
 		showStartScreen = false;
 	}
@@ -79,15 +79,15 @@ window.onload = function() {
 
 function ballReset() {
 	
-	if(leftPaddleScore >= WINNING_SCORE ||
-		rightPaddleScore >= WINNING_SCORE) {
+	if(playerScore >= WINNING_SCORE ||
+		computerScore >= WINNING_SCORE) {
 
 		showGameOverScreen = true;
 		
-		if (leftPaddleScore >= WINNING_SCORE) {
+		if (playerScore >= WINNING_SCORE) {
 			gameOverPlayer.play();
 		}
-		else if (rightPaddleScore >= WINNING_SCORE) {
+		else if (computerScore >= WINNING_SCORE) {
 			gameOverComputer.play();
 		}
 
@@ -133,19 +133,20 @@ function motion() {
 
 	/* If Computer Scores */
 	
-	if(ballX < 0) {
-		if(ballY > leftPaddle &&
+	if(ballX < 15 && ballY > leftPaddle &&
 			ballY < leftPaddle+PADDLE_HEIGHT) {
+
 			ballSpeedX = -ballSpeedX;
 
 			var deltaY = ballY
 					-(leftPaddle+PADDLE_HEIGHT/2);
 			ballSpeedY = deltaY * 0.35;
 			bouncingAudio.play();
-		} else {
-			rightPaddleScore++;
 
-			if (rightPaddleScore == WINNING_SCORE) {
+		} else if (ballX < 0) {
+			computerScore++;
+
+			if (computerScore == WINNING_SCORE) {
 			}
 			else {
               pointComputer.play();
@@ -153,28 +154,29 @@ function motion() {
 
 			ballReset();
 	
-	if (rightPaddleScore == leftPaddleScore + 1) {
+	if (computerScore == playerScore + 1) {
 	whoScored("Computer Leads", "#D50000");
 	}
 
 		}
-	}
+	
 
     /* If Player Scores */
 
-	if(ballX > canvas.width) {
-		if(ballY > rightPaddle &&
+	if(ballX > canvas.width-18 && ballY > rightPaddle &&
 			ballY < rightPaddle+PADDLE_HEIGHT) {
+		
 			ballSpeedX = -ballSpeedX;
 
 			var deltaY = ballY
 					-(rightPaddle+PADDLE_HEIGHT/2);
 			ballSpeedY = deltaY * 0.35;
 				bouncingAudio.play();
-		} else {
-			leftPaddleScore++;
 
-			if (leftPaddleScore == WINNING_SCORE) {
+		} else if (ballX > canvas.width) {
+			playerScore++;
+
+			if (playerScore == WINNING_SCORE) {
 			}
 			else {
               pointPlayer.play();
@@ -182,12 +184,12 @@ function motion() {
 			}
 			ballReset();	
 
-	 if (leftPaddleScore == rightPaddleScore + 1) {
+	 if (playerScore == computerScore + 1) {
 	whoScored("Player Leads", "#007BFF");
 	}	
 
 		}
-	}
+	
 
     /* Y Direction */
 		
@@ -225,9 +227,9 @@ function graphics() {
 
 	else if(showGameOverScreen) {
 
-		if(leftPaddleScore >= WINNING_SCORE) {
+		if(playerScore >= WINNING_SCORE) {
 			gameOverScreen("Player Won", canvas.width/2-70, canvas.height/2,"#007BFF","24px Arial");
-		} else if(rightPaddleScore >= WINNING_SCORE) {
+		} else if(computerScore >= WINNING_SCORE) {
 			gameOverScreen("Computer Won", canvas.width/2-80, canvas.height/2,"#D50000","24px Arial");
 		}
 
@@ -250,8 +252,8 @@ function graphics() {
 	createBall(ballX, ballY, 10, 'white');
 
     /* Scores */
-	scores(leftPaddleScore, canvas.width/2-100, 100, "#007BFF");
-	scores(rightPaddleScore, canvas.width/2+77, 100, "#D50000");
+	scores(playerScore, canvas.width/2-100, 100, "#007BFF");
+	scores(computerScore, canvas.width/2+77, 100, "#D50000");
 
 	}
 
@@ -286,7 +288,7 @@ canvasContext.fillText(paddle, positionX, positionY);
 function whoScored(playerScored, color) {
     var x = document.getElementById("snackbar");
 
-if (rightPaddleScore == WINNING_SCORE || leftPaddleScore == WINNING_SCORE) {
+if (computerScore == WINNING_SCORE || playerScore == WINNING_SCORE) {
 	x.className = "hide";
 }
 else {
