@@ -103,10 +103,20 @@ function ballReset() {
 
 function computerMovement() {
 	var rightPaddleCenter = rightPaddle + (PADDLE_HEIGHT/2);
-
+ 
+ 	/* If ball isn't in computer's half, computer should not move,
+	  except if ball is near the edge, so computer can see the ball coming.  */
 	if (ballX < canvas.width/2 - 50) {
-		/* If ball isn't in computer's half, computer should not move,
-		  except if ball is near the edge, so computer can see the ball coming  */
+
+    /* If computer paddle is not in the middle (250), it will move towards it step by step.
+	In other words, it will go towards the middle until it detecteds ball within it's range. */
+if (rightPaddle < 250) {
+	rightPaddle++;
+}
+else if (rightPaddle > 250) {
+	rightPaddle--;
+}
+
 	} else {
 		if(rightPaddleCenter < ballY - 30) {
 		rightPaddle += 8;
