@@ -211,6 +211,16 @@ function motion() {
 		ballSpeedY = -ballSpeedY;
 			bouncingAudio.play();
 	}
+
+    /* Corners - reset ball if it gets stucked */
+
+	if ( (ballX < 0 && ballY < 0) ||  /* (0,0)  */
+	(ballX < 0 && ballY > canvas.height) || /* (0,600)  */
+	(ballX > canvas.width && ballY < 0) || /* (800,0)  */
+	(ballX > canvas.width && ballY > canvas.height) ) /* (800,600)  */ {
+    ballReset();	
+	}
+
 }
 
 function drawNet() {

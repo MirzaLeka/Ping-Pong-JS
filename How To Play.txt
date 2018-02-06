@@ -17,7 +17,7 @@ https://github.com/MirzaLeka
 ////////////////////////////
 
 |Development|
-Length: 4 days
+Length: 5 days
 Resources: Google, Youtube, Stackoverflow
 Programming: HTML5, CSS3, JavaScript with ECMAScript 6
 //////////////////////////////////////////////////////
