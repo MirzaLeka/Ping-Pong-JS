@@ -102,11 +102,22 @@ function ballReset() {
 
 
 function computerMovement() {
+
+// default = medium difficulty
+let computerSpeed = 8;
+let computerOffset = 30;
+
+//hard
+//let computerSpeed = 15;
+//let computerOffset = 40;
+
+//add +2 and -2 to paddle collision Y axis
+
 	var rightPaddleCenter = rightPaddle + (PADDLE_HEIGHT/2);
  
  	/* If ball isn't in computer's half, computer should not move,
 	  except if ball is near the edge, so computer can see the ball coming.  */
-	if (ballX < canvas.width/2 - 50) {
+	if (ballX < canvas.width/2 - 150) {
 
     /* If computer paddle is not in the middle (250), it will move towards it step by step.
 	In other words, it will go towards the middle until it detecteds ball within it's range. */
@@ -118,10 +129,10 @@ else if (rightPaddle > 250) {
 }
 
 	} else {
-		if(rightPaddleCenter < ballY - 30) {
-		rightPaddle += 8;
-	} else if(rightPaddleCenter > ballY + 30) {
-		rightPaddle -= 8;
+		if(rightPaddleCenter < ballY - computerOffset) {
+		rightPaddle += computerSpeed;
+	} else if(rightPaddleCenter > ballY + computerOffset) {
+		rightPaddle -= computerSpeed;
 	  }
 	}
 
@@ -144,7 +155,7 @@ function motion() {
 	/* If Computer Scores */
 	
 	if(ballX < 15 && ballY > leftPaddle &&
-			ballY < leftPaddle+PADDLE_HEIGHT) {
+			ballY < leftPaddle+PADDLE_HEIGHT+10) { // + 10 is here for corner collision bug
 
 			ballSpeedX = -ballSpeedX;
 
@@ -174,8 +185,8 @@ function motion() {
     /* If Player Scores */
 
 	if(ballX > canvas.width-18 && ballY > rightPaddle &&
-			ballY < rightPaddle+PADDLE_HEIGHT) {
-		
+			ballY < rightPaddle+PADDLE_HEIGHT+10) {
+
 			ballSpeedX = -ballSpeedX;
 
 			var deltaY = ballY
@@ -242,16 +253,40 @@ function graphics() {
 
 	/* If this is active then elements like net, paddles, ball and score will not be drawn on the screen */
 	if (showStartScreen) {
+
 		gameOverScreen("Click to Start", canvas.width/2-70, canvas.height/2,"#FFF","24px Arial");
+		/*//Easy
+		createCanvas(canvas.width/2-70, canvas.height/2-100, 150,30,'#111');
+		gameOverScreen("Easy", canvas.width/2-35, canvas.height/2-77,"white","24px Arial");
+		// Medium
+		createCanvas(canvas.width/2-70, canvas.height/2-20, 150,30,'#111');
+		gameOverScreen("Medium", canvas.width/2-35, canvas.height/2+3,"white","24px Arial");
+		// Hard
+		createCanvas(canvas.width/2-70, canvas.height/2+60, 150,30,'#111');
+		gameOverScreen("Hard", canvas.width/2-35, canvas.height/2+83,"white","24px Arial");
+*/
+
 	}
 
 	else if(showGameOverScreen) {
 
 		if(playerScore >= WINNING_SCORE) {
+			if (playerScore >= WINNING_SCORE && computerScore < 1) {
+			gameOverScreen("Player Dominated", canvas.width/2-100, canvas.height/2,"#007BFF","24px Arial");
+		}
+		else {
 			gameOverScreen("Player Won", canvas.width/2-70, canvas.height/2,"#007BFF","24px Arial");
-		} else if(computerScore >= WINNING_SCORE) {
+		}		
+	} 
+	
+		else if(computerScore >= WINNING_SCORE) {
+			if (computerScore >= WINNING_SCORE && playerScore < 1) {
+			gameOverScreen("Computer Dominated", canvas.width/2-110, canvas.height/2,"#D50000","24px Arial");
+		}
+		else {
 			gameOverScreen("Computer Won", canvas.width/2-80, canvas.height/2,"#D50000","24px Arial");
 		}
+	}
 
 		gameOverScreen("Click to Restart", 625, 575, "#FFF", "18px Arial");
 		return;
