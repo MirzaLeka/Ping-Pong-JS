@@ -1,0 +1,5 @@
+Changes
+
+v.1.1
+- Improved paddle corner collision. 
+- Added Dominated end screen for both player and computer.
