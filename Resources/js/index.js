@@ -50,12 +50,33 @@ function calculateMousePos(evt) {
 }
 
 function handleMouseClick(evt) {
-	if(showGameOverScreen || showStartScreen) {
-		playerScore = 0;
+
+	if (showStartScreen) {
+	    playerScore = 0;
 		computerScore = 0;
 		showGameOverScreen = false;
 		showStartScreen = false;
 	}
+
+	var mousePos = calculateMousePos(evt);
+
+	if (showGameOverScreen) {
+	    playerScore = 0;
+		computerScore = 0;
+
+		// Main Menu Button
+	if (mousePos.x >= 515 && mousePos.x <= 635 && mousePos.y >= 555 && mousePos.y <= 585) {
+			showGameOverScreen = false;
+			showStartScreen = true;
+	}
+	    // Restart button
+	else if (mousePos.x >= 667 && mousePos.x <= 749 && mousePos.y >= 555 && mousePos.y <= 585) {
+		showGameOverScreen = false;
+		showStartScreen = false;
+	}
+
+	}
+
 }
 
 window.onload = function() {
@@ -110,8 +131,6 @@ let computerOffset = 30;
 //hard
 //let computerSpeed = 15;
 //let computerOffset = 40;
-
-//add +2 and -2 to paddle collision Y axis
 
 	var rightPaddleCenter = rightPaddle + (PADDLE_HEIGHT/2);
  
@@ -254,6 +273,9 @@ function graphics() {
 	/* If this is active then elements like net, paddles, ball and score will not be drawn on the screen */
 	if (showStartScreen) {
 
+		gameOverScreen("Winning is easy, but domination can be tough.", canvas.width/2-160, canvas.height/2-150,"#FFF","15px Arial");
+		gameOverScreen("To dominate you must defeat your opponent so badly that he doesn't even score one point.", canvas.width/2-300, canvas.height/2-125,"#FFF","15px Arial");
+
 		gameOverScreen("Click to Start", canvas.width/2-70, canvas.height/2,"#FFF","24px Arial");
 		/*//Easy
 		createCanvas(canvas.width/2-70, canvas.height/2-100, 150,30,'#111');
@@ -287,8 +309,10 @@ function graphics() {
 			gameOverScreen("Computer Won", canvas.width/2-80, canvas.height/2,"#D50000","24px Arial");
 		}
 	}
-
-		gameOverScreen("Click to Restart", 625, 575, "#FFF", "18px Arial");
+	    createCanvas(510, 552, 120,30,'#111');
+	    createCanvas(662, 552, 83,30,'#111');
+	    gameOverScreen("Main Menu", 525, 575, "#FFF", "18px Arial");
+		gameOverScreen("Restart", 675, 575, "#FFF", "18px Arial");
 		return;
 	}
 

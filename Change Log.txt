@@ -1,5 +1,10 @@
 Changes
 
-v.1.1
+v.1.02
+- Added menu options
+- Added Dominate achievement
+
+---------------------------------
+v.1.01
 - Improved paddle corner collision. 
 - Added Dominated end screen for both player and computer.
