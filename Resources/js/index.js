@@ -274,7 +274,7 @@ function graphics() {
 	if (showStartScreen) {
 
 		gameOverScreen("Winning is easy, but domination can be tough.", canvas.width/2-160, canvas.height/2-150,"#FFF","15px Arial");
-		gameOverScreen("To dominate you must defeat your opponent so badly that he doesn't even score one point.", canvas.width/2-300, canvas.height/2-125,"#FFF","15px Arial");
+		gameOverScreen("To dominate you must defeat your opponent so badly that he doesn't even score once.", canvas.width/2-290, canvas.height/2-125,"#FFF","15px Arial");
 
 		gameOverScreen("Click to Start", canvas.width/2-70, canvas.height/2,"#FFF","24px Arial");
 		/*//Easy
