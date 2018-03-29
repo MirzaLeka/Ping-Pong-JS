@@ -8,9 +8,12 @@ var ballSpeedY = 4;
 
 var playerScore = 0;
 var computerScore = 0;
-const WINNING_SCORE = 10;
+const WINNING_SCORE = 11;
+const currentVersion = 'v.1.03';
 
 var showStartScreen = true;
+
+var showDifficultyScreen = false;
 
 var showGameOverScreen = false;
 
@@ -32,6 +35,13 @@ var rightPaddle = 250;
 const PADDLE_THICKNESS = 10;
 const PADDLE_HEIGHT = 100;
 
+//very HARD 20, 40
+
+// Default Difficulty = Medium
+let computerSpeed = 10;
+let computerOffset = 30;
+
+
 function calculateMousePos(evt) {
 
 	/* If you're at start screen you can't move the paddle */
@@ -43,22 +53,60 @@ function calculateMousePos(evt) {
 	var root = document.documentElement;
 	var mouseX = evt.clientX - rect.left - root.scrollLeft;
 	var mouseY = evt.clientY - rect.top - root.scrollTop;
+
+/* Show Mouse position for X and Y axis
+
+ console.log(`MouseX: ${mouseX.toFixed(3)}
+MouseY: ${mouseY.toFixed(3)}`);*/
+
 	return {
 		x:mouseX,
 		y:mouseY
 	};
 }
 
+function gameTime(a, b, c) {
+	showDifficultyScreen = a;
+	showGameOverScreen = b;
+	showStartScreen = c;
+
+}
+
 function handleMouseClick(evt) {
+
+	var mousePos = calculateMousePos(evt);
 
 	if (showStartScreen) {
 	    playerScore = 0;
 		computerScore = 0;
-		showGameOverScreen = false;
-		showStartScreen = false;
+		gameTime(true, false, false);
 	}
 
-	var mousePos = calculateMousePos(evt);
+	else if (showDifficultyScreen) {
+
+	// Easy Button
+	if (mousePos.x >= 336 && mousePos.x <= 483 && mousePos.y >= 203 && mousePos.y <= 233) {
+		computerSpeed = 4;
+        computerOffset = 10;
+		gameTime(false, false, false);
+}
+
+	// Medium button
+    else if (mousePos.x >= 336 && mousePos.x <= 483 && mousePos.y >= 285 && mousePos.y <= 315) {
+		 computerSpeed = 10;
+         computerOffset = 30;
+		gameTime(false, false, false);
+}
+
+	// Hard button
+    else if (mousePos.x >= 336 && mousePos.x <= 483 && mousePos.y >= 363 && mousePos.y <= 393) {
+		computerSpeed = 17;
+		computerOffset = 40;
+		gameTime(false, false, false);
+	}
+
+
+	}
 
 	if (showGameOverScreen) {
 	    playerScore = 0;
@@ -66,13 +114,11 @@ function handleMouseClick(evt) {
 
 		// Main Menu Button
 	if (mousePos.x >= 515 && mousePos.x <= 635 && mousePos.y >= 555 && mousePos.y <= 585) {
-			showGameOverScreen = false;
-			showStartScreen = true;
+		gameTime(false, false, true);
 	}
 	    // Restart button
 	else if (mousePos.x >= 667 && mousePos.x <= 749 && mousePos.y >= 555 && mousePos.y <= 585) {
-		showGameOverScreen = false;
-		showStartScreen = false;
+		gameTime(false, false, false);
 	}
 
 	}
@@ -124,9 +170,7 @@ function ballReset() {
 
 function computerMovement() {
 
-// default = medium difficulty
-let computerSpeed = 8;
-let computerOffset = 30;
+
 
 //hard
 //let computerSpeed = 15;
@@ -160,7 +204,7 @@ else if (rightPaddle > 250) {
 function motion() {
 
 	/* If any of these is active there will be no ball or computer motion */
-	if (showStartScreen || showGameOverScreen) {
+	if (showStartScreen || showDifficultyScreen || showGameOverScreen) {
 		return;
 	}
 
@@ -174,7 +218,7 @@ function motion() {
 	/* If Computer Scores */
 	
 	if(ballX < 15 && ballY > leftPaddle &&
-			ballY < leftPaddle+PADDLE_HEIGHT+10) { // + 10 is here for corner collision bug
+			ballY < leftPaddle+PADDLE_HEIGHT+10) { // + 15 is here for corner collision bug
 
 			ballSpeedX = -ballSpeedX;
 
@@ -273,22 +317,27 @@ function graphics() {
 	/* If this is active then elements like net, paddles, ball and score will not be drawn on the screen */
 	if (showStartScreen) {
 
+		gameOverScreen(`Ping Pong JS ${currentVersion}`, canvas.width-175, canvas.height/3-150,"#FFF","15px Arial");
+
 		gameOverScreen("Winning is easy, but domination can be tough.", canvas.width/2-160, canvas.height/2-150,"#FFF","15px Arial");
 		gameOverScreen("To dominate you must defeat your opponent so badly that he doesn't even score once.", canvas.width/2-290, canvas.height/2-125,"#FFF","15px Arial");
 
 		gameOverScreen("Click to Start", canvas.width/2-70, canvas.height/2,"#FFF","24px Arial");
-		/*//Easy
-		createCanvas(canvas.width/2-70, canvas.height/2-100, 150,30,'#111');
-		gameOverScreen("Easy", canvas.width/2-35, canvas.height/2-77,"white","24px Arial");
-		// Medium
-		createCanvas(canvas.width/2-70, canvas.height/2-20, 150,30,'#111');
-		gameOverScreen("Medium", canvas.width/2-35, canvas.height/2+3,"white","24px Arial");
-		// Hard
-		createCanvas(canvas.width/2-70, canvas.height/2+60, 150,30,'#111');
-		gameOverScreen("Hard", canvas.width/2-35, canvas.height/2+83,"white","24px Arial");
-*/
 
 	}
+
+	else if (showDifficultyScreen) {
+		//Easy
+        createCanvas(canvas.width/2-70, canvas.height/2-100, 150,30,'#111');
+        gameOverScreen("Easy", canvas.width/2-21, canvas.height/2-77,"white","24px Arial");
+        //Medium
+        createCanvas(canvas.width/2-70, canvas.height/2-20, 150,30,'#111');
+        gameOverScreen("Medium", canvas.width/2-37, canvas.height/2+3,"white","24px Arial");
+        //Hard
+         createCanvas(canvas.width/2-70, canvas.height/2+60, 150,30,'#111');
+         gameOverScreen("Hard", canvas.width/2-21, canvas.height/2+83,"white","24px Arial");
+
+}
 
 	else if(showGameOverScreen) {
 
