@@ -121,13 +121,17 @@ function handleMouseClick(evt) {
 
 		// Main Menu Button
 	if (mousePos.x >= 515 && mousePos.x <= 635 && mousePos.y >= 555 && mousePos.y <= 585) {
-		buttonClick.play();
+     	buttonClick.play();
 		gameTime(false, false, true);
+    	stopEndingSound();
+	
 	}
 	    // Restart button
 	else if (mousePos.x >= 667 && mousePos.x <= 749 && mousePos.y >= 555 && mousePos.y <= 585) {
 		buttonClick.play();
 		gameTime(false, false, false);
+		stopEndingSound();
+
 	}
 
 	}
@@ -151,6 +155,15 @@ window.onload = function() {
 			var mousePos = calculateMousePos(evt);
 			leftPaddle = mousePos.y - (PADDLE_HEIGHT/2);
 		});
+}
+
+function stopEndingSound(){
+
+	// Stop winning/losing sound when button is clicked
+		gameOverPlayer.pause();
+		gameOverPlayer.currentTime = 0;
+		gameOverComputer.pause();
+		gameOverComputer.currentTime = 0;
 }
 
 function ballReset() {
@@ -178,12 +191,6 @@ function ballReset() {
 
 
 function computerMovement() {
-
-
-
-//hard
-//let computerSpeed = 15;
-//let computerOffset = 40;
 
 	var rightPaddleCenter = rightPaddle + (PADDLE_HEIGHT/2);
  
