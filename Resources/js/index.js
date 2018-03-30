@@ -392,12 +392,16 @@ function graphics() {
 	/* Right Paddle */
 	createCanvas(canvas.width-PADDLE_THICKNESS,rightPaddle,PADDLE_THICKNESS,PADDLE_HEIGHT,'white');
 
-	/* Ball */
-	createBall(ballX, ballY, 10, 'white');
-
     /* Scores */
 	scores(playerScore, canvas.width/2-100, 100, "#007BFF");
 	scores(computerScore, canvas.width/2+77, 100, "#D50000");
+
+	/* Sides */
+	gameOverScreen("Player", 50, 50, "#007BFF", "18px Arial");
+	gameOverScreen("Computer", 665, 50, "#D50000", "18px Arial");
+
+	/* Ball */
+	createBall(ballX, ballY, 10, 'white');
 
 	}
 
