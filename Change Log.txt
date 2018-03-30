@@ -1,5 +1,8 @@
 Changes
 
+v.1.04
+- When you click a button sound plays
+---------------------------------
 v.1.03
 - Added three difficulty levels on the start and adjusted gameplay based on your choice
 - Winning score is set to 11 as it's in real life Ping Pong

@@ -9,7 +9,7 @@ var ballSpeedY = 4;
 var playerScore = 0;
 var computerScore = 0;
 const WINNING_SCORE = 11;
-const currentVersion = 'v.1.03';
+const currentVersion = 'v.1.04';
 
 var showStartScreen = true;
 
@@ -27,8 +27,11 @@ var pointPlayer = new Audio('../Resources/audio/pointPlayer.mp3');
 
 var pointComputer = new Audio('../Resources/audio/pointComputer.mp3');
 
+var buttonClick = new Audio('../Resources/audio/buttonClick.mp3');
+
     pointPlayer.volume = 0.5;	
 	pointComputer.volume = 0.3;	
+	buttonClick.volume = 0.75;
 
 var leftPaddle = 250;
 var rightPaddle = 250;
@@ -77,6 +80,7 @@ function handleMouseClick(evt) {
 	var mousePos = calculateMousePos(evt);
 
 	if (showStartScreen) {
+		buttonClick.play();
 	    playerScore = 0;
 		computerScore = 0;
 		gameTime(true, false, false);
@@ -86,6 +90,7 @@ function handleMouseClick(evt) {
 
 	// Easy Button
 	if (mousePos.x >= 336 && mousePos.x <= 483 && mousePos.y >= 203 && mousePos.y <= 233) {
+		buttonClick.play();
 		computerSpeed = 4;
         computerOffset = 10;
 		gameTime(false, false, false);
@@ -93,6 +98,7 @@ function handleMouseClick(evt) {
 
 	// Medium button
     else if (mousePos.x >= 336 && mousePos.x <= 483 && mousePos.y >= 285 && mousePos.y <= 315) {
+		buttonClick.play();
 		 computerSpeed = 10;
          computerOffset = 30;
 		gameTime(false, false, false);
@@ -100,6 +106,7 @@ function handleMouseClick(evt) {
 
 	// Hard button
     else if (mousePos.x >= 336 && mousePos.x <= 483 && mousePos.y >= 363 && mousePos.y <= 393) {
+		buttonClick.play();
 		computerSpeed = 17;
 		computerOffset = 40;
 		gameTime(false, false, false);
@@ -114,10 +121,12 @@ function handleMouseClick(evt) {
 
 		// Main Menu Button
 	if (mousePos.x >= 515 && mousePos.x <= 635 && mousePos.y >= 555 && mousePos.y <= 585) {
+		buttonClick.play();
 		gameTime(false, false, true);
 	}
 	    // Restart button
 	else if (mousePos.x >= 667 && mousePos.x <= 749 && mousePos.y >= 555 && mousePos.y <= 585) {
+		buttonClick.play();
 		gameTime(false, false, false);
 	}
 
