@@ -1,5 +1,10 @@
 Changes
 
+v.1.05
+- Added user input *sign in* at the start with proper validation
+- Slightly improved ball spawn. Ball direction is random, but angle and speed need more work
+- Main Menu button now takes you to the difficulties stage
+---------------------------------
 v.1.04
 - When you click a button sound plays
 - Winning/losing sound stop when you restart or go to main menu

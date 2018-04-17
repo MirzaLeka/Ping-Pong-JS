@@ -1,4 +1,6 @@
 
+// Game Variables
+
 var canvas;
 var canvasContext;
 var ballX = 400;
@@ -9,9 +11,11 @@ var ballSpeedY = 4;
 var playerScore = 0;
 var computerScore = 0;
 const WINNING_SCORE = 11;
-const currentVersion = 'v.1.04';
+const currentVersion = 'v.1.05';
 
 var showStartScreen = true;
+
+var showMainMenuScreen = false;
 
 var showDifficultyScreen = false;
 
@@ -29,9 +33,12 @@ var pointComputer = new Audio('../Resources/audio/pointComputer.mp3');
 
 var buttonClick = new Audio('../Resources/audio/buttonClick.mp3');
 
+var buttonError = new Audio('../Resources/audio/buttonError.mp3');
+
     pointPlayer.volume = 0.5;	
 	pointComputer.volume = 0.3;	
 	buttonClick.volume = 0.75;
+	buttonError.volume = 0.25;
 
 var leftPaddle = 250;
 var rightPaddle = 250;
@@ -43,6 +50,110 @@ const PADDLE_HEIGHT = 100;
 // Default Difficulty = Medium
 let computerSpeed = 10;
 let computerOffset = 30;
+
+
+
+/* Form */
+
+var playerName = ""; 
+var errorMsg = ""; 
+
+// Enter key
+document.getElementById("nameInput")
+    .addEventListener("keyup", function(event) {
+    event.preventDefault();
+    if (event.keyCode === 13) {
+      submit();
+    }
+});
+
+function changeFaFaIcon(addClass, removeClass) {
+	document.getElementById("icon-continue").classList.add(addClass);
+	document.getElementById("icon-continue").classList.remove(removeClass); 
+
+}
+
+var invalidInput = 0;
+
+function changeBtnColor() {
+	playerName = document.getElementById("nameInput").value; 
+	errorMsg = document.getElementById("error");
+
+	if (playerName == "") {
+		errorMsg.innerHTML = "Please enter name";
+		document.getElementById("btn-continue").style.background = "#D50000";
+		$("button").find($(".fa")).removeClass('fa fa-arrow-right').addClass('fa fa-close');
+	}
+
+	else if (playerName.length > 16) {
+		errorMsg.innerHTML = "Keep your name below 16 characters";
+		document.getElementById("btn-continue").style.background = "#D50000";
+	$("button").find($(".fa")).removeClass('fa fa-arrow-right').addClass('fa fa-close');
+}
+
+	// Aktivira se ako nema ni jedan karakter u Stringu
+	else if (/^\s*$/.test(playerName)) {
+		errorMsg.innerHTML = "Nice try. Add some characters";
+		$("button").find($(".fa")).removeClass('fa fa-arrow-right').addClass('fa fa-close');
+		document.getElementById("btn-continue").style.background = "#D50000";
+	}
+
+	else {
+	document.getElementById("btn-continue").style.background = "#64DD17";
+		errorMsg.innerHTML = "";
+		$("button").find($(".fa")).removeClass('fa fa-close').addClass('fa fa-arrow-right');	
+	}
+
+}
+
+function submit() {
+
+	errorMsg = document.getElementById("error");
+
+	if (playerName == "") {
+		errorMsg.innerHTML = "Please enter name";
+		$("button").find($(".fa")).removeClass('fa fa-arrow-right').addClass('fa fa-close');
+		document.getElementById("btn-continue").style.background = "#D50000";
+		buttonError.play();
+	}
+
+	else if (playerName.length > 16) {
+		buttonError.play();
+		document.getElementById("btn-continue").style.background = "#D50000";
+	}
+
+	else if (/^\s*$/.test(playerName)) {
+		buttonError.play();
+		document.getElementById("btn-continue").style.background = "#D50000";
+	}
+
+
+	else {
+		$("button").find($(".fa")).removeClass('fa fa-close').addClass('fa fa-arrow-right');	
+		document.getElementById("gameCanvas").style.pointerEvents = "auto";
+		document.getElementById("form").style.display = "none";
+		showDifficultyScreen = true;
+		showStartScreen = false;
+		buttonClick.play();
+	}
+
+
+
+	// Blur off 
+/*		document.getElementById("gameCanvas").setAttribute("style","-webkit-filter:blur(0px)");
+		document.getElementById("gameCanvas").setAttribute("style","-moz-filter:blur(0px)");
+		document.getElementById("gameCanvas").setAttribute("style","-o-filter:blur(0px)");
+		document.getElementById("gameCanvas").setAttribute("style","-ms-filter:blur(0px)");
+		document.getElementById("gameCanvas").setAttribute("style","-filter:blur(0px)");
+*/
+
+
+
+}
+
+
+
+/* Game Logic */
 
 
 function calculateMousePos(evt) {
@@ -122,7 +233,7 @@ function handleMouseClick(evt) {
 		// Main Menu Button
 	if (mousePos.x >= 515 && mousePos.x <= 635 && mousePos.y >= 555 && mousePos.y <= 585) {
      	buttonClick.play();
-		gameTime(false, false, true);
+		gameTime(true, false, false);
     	stopEndingSound();
 	
 	}
@@ -183,8 +294,18 @@ function ballReset() {
 
 	}
 
-    /* After reset ball spawn will be random */
-	ballSpeedX = -ballSpeedX * Math.ceil(Math.random());
+	/* After reset ball spawn will be random */
+
+	// var test = Math.ceil(Math.random()); ORIGINAL TEST
+
+	var myArray = [1,-1];
+	// picks one number from the array
+	var test = myArray[Math.floor(Math.random() * myArray.length)];
+	
+	// sometimes ball will go in your direction, sometimes it won't
+//	console.log("TEST: " + test)
+	ballSpeedX = ballSpeedX * test;
+//	console.log("ballspeedX: " + ballSpeedX);
 	ballX = canvas.width/2;
 	ballY = canvas.height/2;
 }
@@ -234,12 +355,11 @@ function motion() {
 	/* If Computer Scores */
 	
 	if(ballX < 15 && ballY > leftPaddle &&
-			ballY < leftPaddle+PADDLE_HEIGHT+10) { // + 15 is here for corner collision bug
+			ballY < leftPaddle+PADDLE_HEIGHT+10) { // + 10 is here for corner collision bug
 
 			ballSpeedX = -ballSpeedX;
 
-			var deltaY = ballY
-					-(leftPaddle+PADDLE_HEIGHT/2);
+			var deltaY = ballY	-(leftPaddle+PADDLE_HEIGHT/2);
 			ballSpeedY = deltaY * 0.35;
 			bouncingAudio.play();
 
@@ -255,7 +375,7 @@ function motion() {
 			ballReset();
 	
 	if (computerScore == playerScore + 1) {
-	whoScored("Computer Leads", "#D50000");
+	whoScored("Computer Leads", "#111");
 	}
 
 		}
@@ -285,7 +405,7 @@ function motion() {
 			ballReset();	
 
 	 if (playerScore == computerScore + 1) {
-	whoScored("Player Leads", "#007BFF");
+	whoScored(playerName + " Leads", "#111");
 	}	
 
 		}
@@ -338,7 +458,7 @@ function graphics() {
 		gameOverScreen("Winning is easy, but domination can be tough.", canvas.width/2-160, canvas.height/2-150,"#FFF","15px Arial");
 		gameOverScreen("To dominate you must defeat your opponent so badly that he doesn't even score once.", canvas.width/2-290, canvas.height/2-125,"#FFF","15px Arial");
 
-		gameOverScreen("Click to Start", canvas.width/2-70, canvas.height/2,"#FFF","24px Arial");
+		gameOverScreen("Sign in to start", canvas.width/2-70, canvas.height/2-50,"#FFF","24px Arial");
 
 	}
 
@@ -359,10 +479,10 @@ function graphics() {
 
 		if(playerScore >= WINNING_SCORE) {
 			if (playerScore >= WINNING_SCORE && computerScore < 1) {
-			gameOverScreen("Player Dominated", canvas.width/2-100, canvas.height/2,"#007BFF","24px Arial");
+			gameOverScreen(playerName + " Dominated", canvas.width/2-100, canvas.height/2,"#007BFF","24px Arial");
 		}
 		else {
-			gameOverScreen("Player Won", canvas.width/2-70, canvas.height/2,"#007BFF","24px Arial");
+			gameOverScreen(playerName + " Won", canvas.width/2-70, canvas.height/2,"#007BFF","24px Arial");
 		}		
 	} 
 	
@@ -397,7 +517,7 @@ function graphics() {
 	scores(computerScore, canvas.width/2+77, 100, "#D50000");
 
 	/* Sides */
-	gameOverScreen("Player", 50, 50, "#007BFF", "18px Arial");
+	gameOverScreen(playerName, 50, 50, "#007BFF", "18px Arial");
 	gameOverScreen("Computer", 665, 50, "#D50000", "18px Arial");
 
 	/* Ball */

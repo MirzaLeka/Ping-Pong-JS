@@ -7,9 +7,20 @@
     <link rel="stylesheet" href="../Resources/css/index.css">
     <!-- Tab Icon -->
       <link rel="icon" type="image/gif" href="../Resources/img/pingPongIcon.png" />
+      <!-- Font Awesome -->
+  <script src="https://use.fontawesome.com/fe459689b4.js"></script>
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
 </head>
 
 <body>
+
+    <div id="form">
+        <input type="text" oninput="changeBtnColor()" id="nameInput" placeholder=" ex: Solid Snake" required/>
+        <button id="btn-continue" type="button" onclick="submit()"><i id="icon-continue" class="fa fa-arrow-right"></i></button>
+        <p id="error"></p>
+    </div>
 
 <p align="center"><span>Defeat the opponent using mouse. Keep a mouse cursor inside the canvas.<br>First player that reaches <b>11 points</b> wins the match.</span>
     <br><br>
