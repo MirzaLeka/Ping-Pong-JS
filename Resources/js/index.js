@@ -297,18 +297,31 @@ function ballReset() {
 	}
 
 	/* After reset ball direction will be random */
-
-	// var test = Math.ceil(Math.random()); ORIGINAL TEST
-	var myArray = [1,-1];
-
-	// sometimes ball will go in your direction, sometimes it won't
-	var test = myArray[Math.floor(Math.random() * myArray.length)];
 	
-	// ballSpeedX is back to it's original state, but it can go either left or right [1, -1]
-	ballSpeedX = INITIALBallSpeedX * test;
+	// Ball speed is fixed to 10, but ball should be able to spawn on left side or right
+	var XaxisArr = [1,-1];
 
+	// ballXDirection variable will store one of the values from previously created XaxisArr
+	var ballXDirection = XaxisArr[Math.floor(Math.random() * XaxisArr.length)];
+	
+	// ballSpeedX is back to it's inital state multiplied by the random value we pulled from the array above
+	ballSpeedX = INITIALBallSpeedX * ballXDirection;
+
+
+	// Ball is always spawned in the middle of X axis, but for Y it'd be nice to spawn bullet at different height
+	
+	/* Because I'm using Math.Floor, program will never choose number 4 as it's value, which is fine
+	 because ball will either spawn in the middle, in first quarter or the last quarter */
+	var YaxisArr = [1.5,2,3,4];
+
+	// That's why there is an YsxisArr and the following formula will take one of the values from the array
+	var ballYSpawnPoint = YaxisArr[Math.floor(Math.random() * YaxisArr.length)];
+
+	// As I've said, ball will be spawned in the middle of the canvas on X axis and this won't change
 	ballX = canvas.width/2;
-	ballY = canvas.height/2;
+
+	// However, for Y there are multiple spawn points and we'll get that by dividing canvas height with the random value we pulled from the array
+	ballY = canvas.height/ballYSpawnPoint;
 }
 
 
@@ -356,7 +369,7 @@ function motion() {
 	/* If Computer Scores */
 	
 	if(ballX < 15 && ballY > leftPaddle &&
-			ballY < leftPaddle+PADDLE_HEIGHT+10) { // + 10 is here for corner collision bug
+			ballY < leftPaddle+PADDLE_HEIGHT) {
 
 			ballSpeedX = -ballSpeedX;
 
@@ -386,7 +399,7 @@ function motion() {
     /* If Player Scores */
 
 	if(ballX > canvas.width-18 && ballY > rightPaddle &&
-			ballY < rightPaddle+PADDLE_HEIGHT+10) {
+			ballY < rightPaddle+PADDLE_HEIGHT) {
 
 			ballSpeedX = -ballSpeedX;
 
@@ -467,7 +480,7 @@ function graphics() {
 
 	else if (showDifficultyScreen) {
 		//Easy
-        createCanvas(canvas.width/2-70, canvas.height/2-100, 150,30,'#111');
+		createCanvas(canvas.width/2-70, canvas.height/2-100, 150,30,'#111');
         gameOverScreen("Easy", canvas.width/2-21, canvas.height/2-77,"white","24px Arial");
         //Medium
         createCanvas(canvas.width/2-70, canvas.height/2-20, 150,30,'#111');
