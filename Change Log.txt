@@ -1,23 +1,28 @@
 Changes
 
+v.1.06
++ Fixed ball spawn. Ball resets to it's initial state after a score, but direction is still random, left or right
++ Added emojis next to computer in the playable screen. This helps you tell on what difficulty level you're playing.
+- Found some collision bugs. It needs fixing-
+---------------------------------
 v.1.05
-- Added user input *sign in* at the start with proper validation
-- Slightly improved ball spawn. Ball direction is random, but angle and speed need more work
-- Main Menu button now takes you to the difficulties stage
++ Added user input *sign in* at the start with proper validation
++ Slightly improved ball spawn. Ball direction is random, but angle and speed need more work
++ Main Menu button now takes you to the difficulties stage
 ---------------------------------
 v.1.04
-- When you click a button sound plays
-- Winning/losing sound stop when you restart or go to main menu
-- Sides are now marked on the screen
++ When you click a button sound plays
++ Winning/losing sound stop when you restart or go to main menu
++ Sides are now marked on the screen
 ---------------------------------
 v.1.03
-- Added three difficulty levels on the start and adjusted gameplay based on your choice
-- Winning score is set to 11 as it's in real life Ping Pong
++ Added three difficulty levels on the start and adjusted gameplay based on your choice
++ Winning score is set to 11 as it's in real life Ping Pong
 ---------------------------------
 v.1.02
-- Added menu options
-- Added Dominate achievement
++ Added menu options
++ Added Dominate achievement
 ---------------------------------
 v.1.01
-- Improved paddle corner collision. 
-- Added Dominated end screen for both player and computer.
++ Improved paddle corner collision. 
++ Added Dominated end screen for both player and computer.

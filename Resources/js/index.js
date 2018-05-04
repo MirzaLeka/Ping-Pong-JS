@@ -1,17 +1,23 @@
 
-// Game Variables
-
 var canvas;
 var canvasContext;
 var ballX = 400;
 var ballY = 300;
 var ballSpeedX = 10;
+const INITIALBallSpeedX = 10;
+const INITIALBallSpeedY = 4;
 var ballSpeedY = 4;
+
+const easyFace = '😐';
+const mediumFace = '😠';
+const hardFace = '😈';
+let computerFace = '';
+
 
 var playerScore = 0;
 var computerScore = 0;
 const WINNING_SCORE = 11;
-const currentVersion = 'v.1.05';
+const currentVersion = 'v.1.06';
 
 var showStartScreen = true;
 
@@ -138,17 +144,6 @@ function submit() {
 	}
 
 
-
-	// Blur off 
-/*		document.getElementById("gameCanvas").setAttribute("style","-webkit-filter:blur(0px)");
-		document.getElementById("gameCanvas").setAttribute("style","-moz-filter:blur(0px)");
-		document.getElementById("gameCanvas").setAttribute("style","-o-filter:blur(0px)");
-		document.getElementById("gameCanvas").setAttribute("style","-ms-filter:blur(0px)");
-		document.getElementById("gameCanvas").setAttribute("style","-filter:blur(0px)");
-*/
-
-
-
 }
 
 
@@ -203,7 +198,8 @@ function handleMouseClick(evt) {
 	if (mousePos.x >= 336 && mousePos.x <= 483 && mousePos.y >= 203 && mousePos.y <= 233) {
 		buttonClick.play();
 		computerSpeed = 4;
-        computerOffset = 10;
+		computerOffset = 10;
+		computerFace = easyFace; // sets computer face based on difficulty level
 		gameTime(false, false, false);
 }
 
@@ -211,7 +207,8 @@ function handleMouseClick(evt) {
     else if (mousePos.x >= 336 && mousePos.x <= 483 && mousePos.y >= 285 && mousePos.y <= 315) {
 		buttonClick.play();
 		 computerSpeed = 10;
-         computerOffset = 30;
+		 computerOffset = 30;
+		 computerFace = mediumFace;
 		gameTime(false, false, false);
 }
 
@@ -220,6 +217,7 @@ function handleMouseClick(evt) {
 		buttonClick.play();
 		computerSpeed = 17;
 		computerOffset = 40;
+		computerFace = hardFace;
 		gameTime(false, false, false);
 	}
 
@@ -286,26 +284,29 @@ function ballReset() {
 		
 		if (playerScore >= WINNING_SCORE) {
 			gameOverPlayer.play();
+			ballSpeedX = INITIALBallSpeedX;
+			ballSpeedY = INITIALBallSpeedY;
 		}
 		else if (computerScore >= WINNING_SCORE) {
 			gameOverComputer.play();
+			ballSpeedX = INITIALBallSpeedX;
+			ballSpeedY = INITIALBallSpeedY;
 		}
 
 
 	}
 
-	/* After reset ball spawn will be random */
+	/* After reset ball direction will be random */
 
 	// var test = Math.ceil(Math.random()); ORIGINAL TEST
-
 	var myArray = [1,-1];
-	// picks one number from the array
+
+	// sometimes ball will go in your direction, sometimes it won't
 	var test = myArray[Math.floor(Math.random() * myArray.length)];
 	
-	// sometimes ball will go in your direction, sometimes it won't
-//	console.log("TEST: " + test)
-	ballSpeedX = ballSpeedX * test;
-//	console.log("ballspeedX: " + ballSpeedX);
+	// ballSpeedX is back to it's original state, but it can go either left or right [1, -1]
+	ballSpeedX = INITIALBallSpeedX * test;
+
 	ballX = canvas.width/2;
 	ballY = canvas.height/2;
 }
@@ -364,6 +365,7 @@ function motion() {
 			bouncingAudio.play();
 
 		} else if (ballX < 0) {
+			ballSpeedY = INITIALBallSpeedY; // if one side scores, ballSpeedY should return to it's inital value, before delta
 			computerScore++;
 
 			if (computerScore == WINNING_SCORE) {
@@ -390,10 +392,11 @@ function motion() {
 
 			var deltaY = ballY
 					-(rightPaddle+PADDLE_HEIGHT/2);
-			ballSpeedY = deltaY * 0.35;
+			ballSpeedY = INITIALBallSpeedY
 				bouncingAudio.play();
 
 		} else if (ballX > canvas.width) {
+			ballSpeedY = INITIALBallSpeedY;
 			playerScore++;
 
 			if (playerScore == WINNING_SCORE) {
@@ -518,7 +521,7 @@ function graphics() {
 
 	/* Sides */
 	gameOverScreen(playerName, 50, 50, "#007BFF", "18px Arial");
-	gameOverScreen("Computer", 665, 50, "#D50000", "18px Arial");
+	gameOverScreen(computerFace+ " Computer", 640, 50, "#D50000", "18px Arial");
 
 	/* Ball */
 	createBall(ballX, ballY, 10, 'white');
