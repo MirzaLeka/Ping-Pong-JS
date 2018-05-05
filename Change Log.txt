@@ -4,6 +4,7 @@ v.1.06
 + Fixed ball spawn. Ball resets to it's initial state after a score, but direction is still random, left or right
 + Added emojis next to computer in the playable screen. This helps you tell on what difficulty level you're playing.
 + Randomized ball spawn on Y axis. Ball no longer spawns just in the middle.
++ Fixed audio not playing issue that occurred if you scored twice quickly
 - Found some collision bugs. It needs fixing-
 ---------------------------------
 v.1.05

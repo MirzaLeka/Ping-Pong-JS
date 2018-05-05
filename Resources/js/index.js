@@ -51,7 +51,6 @@ var rightPaddle = 250;
 const PADDLE_THICKNESS = 10;
 const PADDLE_HEIGHT = 100;
 
-//very HARD 20, 40
 
 // Default Difficulty = Medium
 let computerSpeed = 10;
@@ -384,6 +383,8 @@ function motion() {
 			if (computerScore == WINNING_SCORE) {
 			}
 			else {
+			  pointComputer.pause();
+			  pointComputer.currentTime = 0;	  
               pointComputer.play();
 			}
 
@@ -415,6 +416,10 @@ function motion() {
 			if (playerScore == WINNING_SCORE) {
 			}
 			else {
+			// If you score once and then score again, the second sound won't play because the first was not finished yet.
+			// To fix the issue, sound is paused, then rewined and played from the beginning
+			  pointPlayer.pause();
+			  pointPlayer.currentTime = 0;	
               pointPlayer.play();
 			  
 			}
