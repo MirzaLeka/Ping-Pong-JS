@@ -246,15 +246,29 @@ function handleMouseClick(evt) {
 
 }
 
+var framesPerSecond = 30;
+var interval = 1000 / framesPerSecond;
+var then = Date.now();
+var now;
+var delta;
+
+function renderingLoop() {
+  requestAnimationFrame(renderingLoop);
+  now = Date.now();
+  delta = now - then;
+  if (delta > interval) {
+    motion();
+    graphics();
+    then = now - (delta % interval);
+  }
+}
+
+
 window.onload = function() {
 	canvas = document.getElementById('gameCanvas');
 	canvasContext = canvas.getContext('2d');
 
-	var framesPerSecond = 30;
-	setInterval(function() {
-			motion();
-			graphics();	
-		}, 1000/framesPerSecond);
+  renderingLoop();
 
 	canvas.addEventListener('mousedown', handleMouseClick);
 
