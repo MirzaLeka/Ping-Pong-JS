@@ -477,9 +477,10 @@ function graphics() {
 		gameOverScreen(`Ping Pong JS ${currentVersion}`, canvas.width-175, canvas.height/3-150,"#FFF","15px Arial");
 
 		gameOverScreen("Winning is easy, but domination can be tough.", canvas.width/2-160, canvas.height/2-150,"#FFF","15px Arial");
-		gameOverScreen("To dominate you must defeat your opponent so badly that he doesn't even score once.", canvas.width/2-290, canvas.height/2-125,"#FFF","15px Arial");
+		gameOverScreen("To dominate you must defeat your opponent so badly that he doesn't even score once.", canvas.width/2-290, canvas.height/2-125,"#FFF","15px Arial");		
+		gameOverScreen("Please enter your name to start", canvas.width/2-80, canvas.height/2-100,"#FFF","15px Arial");
 
-		gameOverScreen("Sign in to start", canvas.width/2-70, canvas.height/2-50,"#FFF","24px Arial");
+		gameOverScreen("", canvas.width/2-70, canvas.height/2-50,"#FFF","24px Arial");
 
 	}
 
